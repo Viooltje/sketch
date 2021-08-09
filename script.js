@@ -1,16 +1,9 @@
-// Get value to work globaly 
-// fix makeGrid
-// More comments
-
 // Selecting dom elements 
-const gridContainer = document.querySelectorAll('.container');
+const gridContainer = document.querySelector('.container');
 const slider = document.getElementById('number-of-grid');
 
 // Variable to update 
 let value;
-
-// Eventlisteners maybe
-
 
 // Show the value of the range value 
 let output = document.querySelector('.new-value');
@@ -22,20 +15,28 @@ slider.oninput = function() {
     return value;
 } 
 
-slider.addEventListener('mouseup', makeGrid)
-// Create the grid
-function makeGrid(){
-    for (i = 0; i < value; i++) {
-    console.log('hoi');
-    var grid = document.createElement('div');
-    grid.className = 'grid';
-    gridContainer.appendChild('grid');
-    }
+slider.addEventListener('mouseup', function(){ remove(gridContainer);});
 
+// Remove previous grid
+function remove(parent){
+    while (parent.firstChild) {
+        parent.removeChild(parent.lastChild);
+    }
 }
 
 
+slider.addEventListener('mouseup', makeGrid);
+// Create the grid
+function makeGrid(){
+    remove(gridContainer);
+    let gridTotal = value**2;
+    gridContainer.style.gridTemplateColumns = `repeat(${value}, 1fr)`;
+    gridContainer.style.gridTemplateRows = `repeat(${value}, 1fr)`;
+    for (i = 0; i < gridTotal; i++) {
+    var grid = document.createElement('div');
+    grid.classList.add('grid');
+    gridContainer.appendChild(grid);
+    }
+}
 
-
-
-
+// Color a grid 
