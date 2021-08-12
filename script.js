@@ -1,9 +1,17 @@
 // Selecting dom elements 
 const gridContainer = document.querySelector('.container');
 const slider = document.getElementById('number-of-grid');
+const colorInput = document.querySelector('#color');
+const eraser = document.querySelector('#eraser');
 
 // Variable to update 
-let value;
+let value = slider.value;
+let block;
+let color = colorInput.value; 
+
+// Load first grid
+document.addEventListener('DOMContentLoaded', makeGrid);
+
 
 // Show the value of the range value 
 let output = document.querySelector('.new-value');
@@ -15,15 +23,25 @@ slider.oninput = function() {
     return value;
 } 
 
+// Remove previous grid
 slider.addEventListener('mouseup', function(){ remove(gridContainer);});
 
-// Remove previous grid
 function remove(parent){
     while (parent.firstChild) {
         parent.removeChild(parent.lastChild);
     }
 }
 
+// Change color of background
+function changeColor(e){
+    e.target.style.background = color;
+}    
+
+//Change pen color
+colorInput.addEventListener('input', ()=>{
+    color = colorInput.value;
+    console.log(color);
+})
 
 slider.addEventListener('mouseup', makeGrid);
 // Create the grid
@@ -37,6 +55,10 @@ function makeGrid(){
     grid.classList.add('grid');
     gridContainer.appendChild(grid);
     }
+    // Color change maybe 
+    block = document.querySelectorAll('.grid'); //gets node list well 
+    block.forEach((block) => block.addEventListener('mouseover', changeColor));
 }
 
-// Color a grid 
+// Eraser
+eraser.addEventListener('click', makeGrid);
